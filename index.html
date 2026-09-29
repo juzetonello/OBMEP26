@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OBMEP 2026 - Cadastro de Colaboradores</title>
+  <!-- Google Fonts & FontAwesome icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --obmep-blue: #003366;
+      --obmep-blue-hover: #002244;
+      --obmep-yellow: #F1B500;
+      --obmep-green: #00875A;
+      --obmep-red: #D9381E;
+      --bg-color: #F4F6F9;
+      --card-bg: #FFFFFF;
+      --text-dark: #2C3E50;
+      --text-muted: #6C757D;
+      --border-color: #CED4DA;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-dark);
+      line-height: 1.6;
+      padding-bottom: 50px;
+    }
+
+    /* Cabeçalho */
+    header {
+      background: linear-gradient(135deg, var(--obmep-blue) 0%, #001A33 100%);
+      color: #fff;
+      padding: 30px 20px;
+      text-align: center;
+      border-bottom: 5px solid var(--obmep-yellow);
+      box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    }
+
+    header h1 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 2.2rem;
+      letter-spacing: 1px;
+      margin-bottom: 5px;
+    }
+
+    header p {
+      font-size: 1.1rem;
+      opacity: 0.9;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: -20px auto 0;
+      padding: 0 15px;
+    }
+
+    /* Card Informativo da Prova */
+    .info-card {
+      background-color: var(--card-bg);
+      border-radius: 10px;
+      padding: 20px 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-left: 6px solid var(--obmep-yellow);
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .info-card .details h2 {
+      font-family: 'Montserrat', sans-serif;
+      color: var(--obmep-blue);
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+
+    .info-card .badge-date {
+      background-color: var(--obmep-blue);
+      color: #fff;
+      padding: 10px 18px;
+      border-radius: 8px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .info-card .badge-date span {
+      display: block;
+      color: var(--obmep-yellow);
+      font-size: 0.85rem;
+    }
+
+    /* Estilo do Formulário */
+    form {
+      background-color: var(--card-bg);
+      border-radius: 12px;
+      padding: 35px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .section-title {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.2rem;
+      color: var(--obmep-blue);
+      border-bottom: 2px solid #E9ECEF;
+      padding-bottom: 8px;
+      margin: 25px 0 20px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-title:first-of-type {
+      margin-top: 0;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 18px;
+    }
+
+    .col-12 { grid-column: span 12; }
+    .col-8  { grid-column: span 8; }
+    .col-6  { grid-column: span 6; }
+    .col-4  { grid-column: span 4; }
+    .col-3  { grid-column: span 3; }
+
+    @media (max-width: 768px) {
+      .col-8, .col-6, .col-4, .col-3 { grid-column: span 12; }
+    }
+
+    .form-group {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .form-group label {
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 6px;
+      color: var(--text-dark);
+    }
+
+    .form-group label .required {
+      color: var(--obmep-red);
+    }
+
+    .form-control {
+      padding: 12px 14px;
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      background-color: #FAFAFA;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--obmep-blue);
+      background-color: #FFF;
+      box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.15);
+    }
+
+    select.form-control {
+      cursor: pointer;
+    }
+
+    .alert-box {
+      background-color: #FFF8E1;
+      border: 1px solid #FFE082;
+      border-radius: 6px;
+      padding: 12px 15px;
+      font-size: 0.85rem;
+      color: #7A5200;
+      margin-bottom: 15px;
+    }
+
+    /* Botão de Envio */
+    .btn-submit {
+      background-color: var(--obmep-green);
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      font-family: 'Montserrat', sans-serif;
+      border-radius: 8px;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 30px;
+      transition: background-color 0.2s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .btn-submit:hover {
+      background-color: #006B47;
+    }
+
+    /* Telas de Alerta JS */
+    #message-status {
+      display: none;
+      padding: 15px;
+      border-radius: 6px;
+      margin-top: 20px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .status-success {
+      background-color: #D4EDDA;
+      color: #155724;
+      border: 1px solid #C3E6CB;
+    }
+
+    .status-error {
+      background-color: #F8D7DA;
+      color: #721C24;
+      border: 1px solid #F5C6CB;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>OBMEP 2026</h1>
+    <p>Cadastro de Colaboradores (Coordenadores e Aplicadores)</p>
+  </header>
+
+  <div class="container">
+    <!-- Bloco com informações da Prova -->
+    <div class="info-card">
+      <div class="details">
+        <h2><i class="fa-solid fa-file-pen"></i> Aplicação da Prova - 2ª Fase</h2>
+        <p>A prova será realizada em Centros de Aplicação designados pelo IMPA.</p>
+      </div>
+      <div class="badge-date">
+        17 DE OUTUBRO DE 2026
+        <span>Sábado - Horário: 14h30 (Brasília)</span>
+      </div>
+    </div>
+
+    <!-- Formulário -->
+    <form id="obmepForm">
+      
+      <!-- Dados do Local de Atuação -->
+      <div class="section-title">
+        <i class="fa-solid fa-location-dot"></i> 1. Local de Atuação
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-6">
+          <label for="municipio">Município onde atuará <span class="required">*</span></label>
+          <input type="text" id="municipio" name="municipio" class="form-control" placeholder="Ex: Carangola" required>
+        </div>
+        <div class="form-group col-6">
+          <label for="centroAplicacao">Centro de Aplicação <span class="required">*</span></label>
+          <input type="text" id="centroAplicacao" name="centroAplicacao" class="form-control" placeholder="Ex: E.E. Professor João Belo" required>
+        </div>
+      </div>
+
+      <!-- Dados Pessoais -->
+      <div class="section-title">
+        <i class="fa-solid fa-user"></i> 2. Dados Pessoais
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-8">
+          <label for="nome">Nome Completo <span class="required">*</span></label>
+          <input type="text" id="nome" name="nome" class="form-control" placeholder="Digite seu nome completo" required>
+        </div>
+        <div class="form-group col-4">
+          <label for="cpf">CPF <span class="required">*</span></label>
+          <input type="text" id="cpf" name="cpf" class="form-control" placeholder="000.000.000-00" required>
+        </div>
+        <div class="form-group col-6">
+          <label for="email">E-mail <span class="required">*</span></label>
+          <input type="email" id="email" name="email" class="form-control" placeholder="seuemail@exemplo.com" required>
+        </div>
+        <div class="form-group col-3">
+          <label for="dataNascimento">Data de Nascimento <span class="required">*</span></label>
+          <input type="date" id="dataNascimento" name="dataNascimento" class="form-control" required>
+        </div>
+        <div class="form-group col-3">
+          <label for="telefone">Telefone Celular <span class="required">*</span></label>
+          <input type="text" id="telefone" name="telefone" class="form-control" placeholder="(00) 90000-0000" required>
+        </div>
+      </div>
+
+      <!-- Vínculo e Função -->
+      <div class="section-title">
+        <i class="fa-solid fa-briefcase"></i> 3. Vínculo e Função
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-4">
+          <label for="funcao">Função na OBMEP <span class="required">*</span></label>
+          <select id="funcao" name="funcao" class="form-control" required>
+            <option value="">Selecione...</option>
+            <option value="Coordenador de Centro">Coordenador de Centro</option>
+            <option value="Aplicador">Aplicador</option>
+            <option value="Apoio Operacional">Apoio Operacional</option>
+          </select>
+        </div>
+        <div class="form-group col-4">
+          <label for="servidorEscola">Servidor da Escola de Aplicação?</label>
+          <select id="servidorEscola" name="servidorEscola" class="form-control" required>
+            <option value="">Selecione...</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+        <div class="form-group col-4">
+          <label for="profMatematica">É Professor de Matemática?</label>
+          <select id="profMatematica" name="profMatematica" class="form-control" required>
+            <option value="">Selecione...</option>
+            <option value="Sim">Sim</option>
+            <option value="Não">Não</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Endereço Residencial -->
+      <div class="section-title">
+        <i class="fa-solid fa-house"></i> 4. Endereço Residencial
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-8">
+          <label for="endereco">Rua, Número e Bairro <span class="required">*</span></label>
+          <input type="text" id="endereco" name="endereco" class="form-control" placeholder="Rua ..., nº ..., Bairro ..." required>
+        </div>
+        <div class="form-group col-4">
+          <label for="municipioEstado">Município / Estado <span class="required">*</span></label>
+          <input type="text" id="municipioEstado" name="municipioEstado" class="form-control" placeholder="Ex: Carangola / MG" required>
+        </div>
+        <div class="form-group col-4">
+          <label for="cep">CEP <span class="required">*</span></label>
+          <input type="text" id="cep" name="cep" class="form-control" placeholder="00000-000" required>
+        </div>
+      </div>
+
+      <!-- Dados Bancários -->
+      <div class="section-title">
+        <i class="fa-solid fa-building-columns"></i> 5. Dados Bancários para Pagamento
+      </div>
+      <div class="alert-box">
+        <i class="fa-solid fa-circle-info"></i> <strong>Atenção:</strong> Preencha os dados bancários com muita atenção para evitar transtornos no recebimento da taxa de aplicação.
+      </div>
+      <div class="form-grid">
+        <div class="form-group col-6">
+          <label for="instituicaoBancaria">Instituição Bancária <span class="required">*</span></label>
+          <input type="text" id="instituicaoBancaria" name="instituicaoBancaria" class="form-control" placeholder="Ex: Banco do Brasil, Caixa, Itaú" required>
+        </div>
+        <div class="form-group col-6">
+          <label for="codBanco">Código do Banco <span class="required">*</span></label>
+          <input type="text" id="codBanco" name="codBanco" class="form-control" placeholder="Ex: 001 (BB), 104 (CEF), 341 (Itaú)" required>
+        </div>
+        <div class="form-group col-6">
+          <label for="agencia">Agência (com dígito, se houver) <span class="required">*</span></label>
+          <input type="text" id="agencia" name="agencia" class="form-control" placeholder="Ex: 1234-5" required>
+        </div>
+        <div class="form-group col-6">
+          <label for="contaCorrente">Conta Corrente (com dígito) <span class="required">*</span></label>
+          <input type="text" id="contaCorrente" name="contaCorrente" class="form-control" placeholder="Ex: 12345-6" required>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" id="btnSubmit">
+        <i class="fa-solid fa-paper-plane"></i> Enviar Cadastro
+      </button>
+
+      <div id="message-status"></div>
+    </form>
+  </div>
+
+  <script>
+    // URL Web App do Google Apps Script (Substitua pela URL gerada no passo 2)
+    const APPS_SCRIPT_URL = "COLE_AQUI_SUA_URL_DO_GOOGLE_APPS_SCRIPT";
+
+    const form = document.getElementById('obmepForm');
+    const btnSubmit = document.getElementById('btnSubmit');
+    const messageStatus = document.getElementById('message-status');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      if(APPS_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbwWX-9OuAzYQBkxTP5eHqN-r1O8omvNlBh2m8TYw-ox0Zu5JUNMz2JF_Gd_J_BDyxjo3g/exec") {
+        alert("Por favor, configure a URL do Apps Script no código antes de enviar os dados!");
+        return;
+      }
+
+      btnSubmit.disabled = true;
+      btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+      messageStatus.style.display = 'none';
+
+      const formData = new FormData(form);
+
+      fetch(APPS_SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if(data.result === 'success') {
+          messageStatus.className = 'status-success';
+          messageStatus.innerText = 'Cadastro realizado com sucesso! Seus dados foram salvos na planilha.';
+          messageStatus.style.display = 'block';
+          form.reset();
+        } else {
+          throw new Error(data.error || 'Erro ao gravar dados');
+        }
+      })
+      .catch(error => {
+        messageStatus.className = 'status-error';
+        messageStatus.innerText = 'Ocorreu um erro ao enviar seu cadastro. Tente novamente ou entre em contato com a coordenação.';
+        messageStatus.style.display = 'block';
+        console.error('Erro:', error);
+      })
+      .finally(() => {
+        btnSubmit.disabled = false;
+        btnSubmit.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar Cadastro';
+      });
+    });
+  </script>
+</body>
+</html>
