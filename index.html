@@ -386,8 +386,7 @@
   </div>
 
   <script>
-    // URL Web App do Google Apps Script (Substitua pela URL gerada no passo 2)
-    const APPS_SCRIPT_URL = "COLE_AQUI_SUA_URL_DO_GOOGLE_APPS_SCRIPT";
+    const APPS_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwWX-9OuAzYQBkxTP5eHqN-r1O8omvNlBh2m8TYw-ox0Zu5JUNMz2JF_Gd_J_BDyxjo3g/exec";
 
     const form = document.getElementById('obmepForm');
     const btnSubmit = document.getElementById('btnSubmit');
@@ -396,20 +395,19 @@
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      if(APPS_SCRIPT_URL === "https://script.google.com/macros/s/AKfycbwWX-9OuAzYQBkxTP5eHqN-r1O8omvNlBh2m8TYw-ox0Zu5JUNMz2JF_Gd_J_BDyxjo3g/exec") {
-        alert("Por favor, configure a URL do Apps Script no código antes de enviar os dados!");
-        return;
-      }
-
       btnSubmit.disabled = true;
       btnSubmit.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
       messageStatus.style.display = 'none';
 
       const formData = new FormData(form);
+      const urlParams = new URLSearchParams(formData);
 
       fetch(APPS_SCRIPT_URL, {
         method: 'POST',
-        body: formData
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+        },
+        body: urlParams.toString()
       })
       .then(response => response.json())
       .then(data => {
